@@ -17,10 +17,9 @@ public class BuiltinCardStorage implements CardStorage {
 
     public BuiltinCardStorage(File file) {
         this.file = file;
+        if (file.exists()) return;
         try {
-            if (!file.exists()) {
-                Files.createFile(file.toPath());
-            }
+            Files.createFile(file.toPath());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e, () -> String.format("Error when creating new file %s!!!", file.getName()));
         }
@@ -29,14 +28,15 @@ public class BuiltinCardStorage implements CardStorage {
     @Override
     public CompletableFuture<Collection<Card>> load() {
         return CompletableFuture.supplyAsync(() -> {
-            Collection<Card> cards;
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                cards = (Collection<Card>) ois.readObject();
+                Object raw = ois.readObject();
+                if (raw instanceof Collection) {
+                    return (Collection<Card>) raw;
+                }
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, e, () -> String.format("Error when loading data from file %s, falling back to empty list!!!", file.getName()));
-                cards = Collections.emptyList();
             }
-            return cards;
+            return Collections.emptyList();
         });
     }
 
