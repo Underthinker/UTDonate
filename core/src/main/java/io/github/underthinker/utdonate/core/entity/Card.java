@@ -9,8 +9,8 @@ import java.util.UUID;
 
 @Value
 public class Card implements Serializable {
-    UUID cardID;
-    UUID ownerID;
+    UUID cardId;
+    UUID ownerId;
     String serial;
     String pin;
     int price;
