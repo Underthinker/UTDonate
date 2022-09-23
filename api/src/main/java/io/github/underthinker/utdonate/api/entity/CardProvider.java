@@ -1,11 +1,11 @@
 package io.github.underthinker.utdonate.api.entity;
 
-import lombok.Data;
+import lombok.Value;
 
 import java.io.Serializable;
 
-@Data
+@Value
 public class CardProvider implements Serializable {
-    private final String value;
-    private final String display;
+    String value;
+    String display;
 }
