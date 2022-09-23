@@ -31,6 +31,7 @@ public class BuiltinCardStorage implements CardStorage {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 Object raw = ois.readObject();
                 if (raw instanceof Collection) {
+                    // noinspection unchecked
                     return (Collection<Card>) raw;
                 }
             } catch (Exception e) {
