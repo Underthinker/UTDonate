@@ -11,6 +11,6 @@ public class Card implements Serializable {
     UUID ownerID;
     String serial;
     String pin;
-    CardPrice price;
-    CardProvider provider;
+    int price;
+    String provider;
 }
