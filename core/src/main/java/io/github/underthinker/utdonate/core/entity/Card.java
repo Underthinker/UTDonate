@@ -1,4 +1,4 @@
-package io.github.underthinker.utdonate.api.entity;
+package io.github.underthinker.utdonate.core.entity;
 
 import lombok.Value;
 

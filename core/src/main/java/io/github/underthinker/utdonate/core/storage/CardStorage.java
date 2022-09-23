@@ -1,6 +1,6 @@
-package io.github.underthinker.utdonate.api.storage;
+package io.github.underthinker.utdonate.core.storage;
 
-import io.github.underthinker.utdonate.api.entity.Card;
+import io.github.underthinker.utdonate.core.entity.Card;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
