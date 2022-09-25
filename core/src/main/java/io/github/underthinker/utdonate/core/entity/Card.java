@@ -17,6 +17,4 @@ public class Card implements Serializable {
     String provider;
     @With
     Date date;
-    @With
-    CardStatus status;
 }

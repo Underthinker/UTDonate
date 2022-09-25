@@ -11,6 +11,8 @@ public interface CardStorage {
 
     void stop();
 
+    String getName();
+
     CompletableFuture<Collection<Card>> getAll();
 
     CompletableFuture<Collection<Card>> getByOwner(UUID ownerId);
