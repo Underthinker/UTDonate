@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Value
 public class Card implements Serializable {
+    @With
     UUID cardId;
     UUID ownerId;
     String serial;
@@ -17,4 +18,8 @@ public class Card implements Serializable {
     String provider;
     @With
     Date date;
+
+    public static Card fromInput(CardInput input) {
+        return new Card(UUID.randomUUID(), input.getOwnerId(), input.getSerial(), input.getPin(), input.getPrice(), input.getProvider(), new Date());
+    }
 }
