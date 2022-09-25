@@ -16,10 +16,11 @@ public class Card implements Serializable {
     String pin;
     int price;
     String provider;
+    String topUpName;
     @With
     Date date;
 
-    public static Card fromInput(CardInput input) {
-        return new Card(UUID.randomUUID(), input.getOwnerId(), input.getSerial(), input.getPin(), input.getPrice(), input.getProvider(), new Date());
+    public static Card fromInput(CardInput input, String topUpName) {
+        return new Card(UUID.randomUUID(), input.getOwnerId(), input.getSerial(), input.getPin(), input.getPrice(), input.getProvider(), topUpName, new Date());
     }
 }
