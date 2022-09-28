@@ -1,11 +1,11 @@
-package io.github.underthinker.utdonate.core.entity.card;
+package io.github.underthinker.utdonate.core.entity;
 
 import lombok.Value;
 
 import java.util.UUID;
 
 @Value
-public class CardInput {
+public class Card {
     UUID ownerId;
     String serial;
     String pin;

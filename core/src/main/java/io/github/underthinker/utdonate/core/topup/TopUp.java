@@ -1,12 +1,7 @@
 package io.github.underthinker.utdonate.core.topup;
 
-import io.github.underthinker.utdonate.core.entity.card.Card;
-import io.github.underthinker.utdonate.core.entity.card.CardInput;
-import io.github.underthinker.utdonate.core.entity.topup.TopUpProgressResponse;
-import io.github.underthinker.utdonate.core.entity.topup.TopUpSubmitResponse;
+import io.github.underthinker.utdonate.core.entity.Card;
 
 public interface TopUp {
-    TopUpSubmitResponse submitAndCheck(CardInput cardInput);
-
-    TopUpProgressResponse checkProgress(Card cardInput);
+    boolean submitAndCheck(Card card);
 }
