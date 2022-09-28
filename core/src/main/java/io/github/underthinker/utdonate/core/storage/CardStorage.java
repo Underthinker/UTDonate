@@ -1,8 +1,8 @@
 package io.github.underthinker.utdonate.core.storage;
 
-import io.github.underthinker.utdonate.core.entity.Card;
+import io.github.underthinker.utdonate.core.entity.card.Card;
 
-import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -13,13 +13,13 @@ public interface CardStorage {
 
     String getName();
 
-    CompletableFuture<Collection<Card>> getAll();
+    CompletableFuture<Map<Long, Card>> getAll();
 
-    CompletableFuture<Collection<Card>> getByOwner(UUID ownerId);
+    CompletableFuture<Map<Long, Card>> getByOwner(UUID ownerId);
 
-    CompletableFuture<Card> get(UUID id);
+    CompletableFuture<Card> get(long id);
 
     CompletableFuture<Void> save(Card card);
 
-    CompletableFuture<Void> save(Collection<Card> cards);
+    CompletableFuture<Void> remove(Long id);
 }
