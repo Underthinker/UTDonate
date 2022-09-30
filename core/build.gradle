@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies {
-
+    api 'me.hsgamer:hscore-addon:4.1.26'
+    api 'me.hsgamer:hscore-common:4.1.26'
 }

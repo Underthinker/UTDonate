@@ -1,7 +1,8 @@
 package io.github.underthinker.utdonate.core.manager;
 
 import io.github.underthinker.utdonate.core.UTDonateCore;
-import io.github.underthinker.utdonate.core.entity.Card;
+import io.github.underthinker.utdonate.core.entity.card.Card;
+import io.github.underthinker.utdonate.core.topup.TopUp;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,10 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class TopUpManager {
-    private final Map<String, Predicate<Card>> topUpMap;
+    private final Map<String, TopUp> topUpMap;
     private final List<Consumer<Card>> submitListeners;
     private final List<Consumer<Card>> failCheckListeners;
     private final List<Consumer<Card>> successCheckListeners;
@@ -28,8 +28,16 @@ public class TopUpManager {
         completeListeners = new LinkedList<>();
     }
 
-    public void registerTopUp(String name, Predicate<Card> topUp) {
+    private static void notifyListeners(List<Consumer<Card>> listeners, Card card) {
+        listeners.forEach(listener -> listener.accept(card));
+    }
+
+    public void registerTopUp(String name, TopUp topUp) {
         topUpMap.put(name, topUp);
+    }
+
+    public void unregisterTopUp(String name) {
+        topUpMap.remove(name);
     }
 
     public void registerSubmitListener(Consumer<Card> listener) {
@@ -40,17 +48,21 @@ public class TopUpManager {
         completeListeners.add(listener);
     }
 
-    private static void notifyListeners(List<Consumer<Card>> listeners, Card card) {
-        listeners.forEach(listener -> listener.accept(card));
+    public void registerFailCheckListener(Consumer<Card> listener) {
+        failCheckListeners.add(listener);
+    }
+
+    public void registerSuccessCheckListener(Consumer<Card> listener) {
+        successCheckListeners.add(listener);
     }
 
     public CompletableFuture<Boolean> submitAndCheck(Card card) {
         notifyListeners(submitListeners, card);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         core.getSchedulerFactory().runTaskAsynchronously(() -> {
-            for (Map.Entry<String, Predicate<Card>> entry : topUpMap.entrySet()) {
+            for (Map.Entry<String, TopUp> entry : topUpMap.entrySet()) {
                 String topUpName = entry.getKey();
-                if (entry.getValue().test(card)) {
+                if (entry.getValue().submitAndCheck(card)) {
                     notifyListeners(successCheckListeners, card);
                     future.complete(true);
                     return;
