@@ -1,4 +1,4 @@
-package io.github.underthinker.utdonate.core.topup;
+package io.github.underthinker.utdonate.core.entity.topup;
 
 import io.github.underthinker.utdonate.core.entity.card.Card;
 

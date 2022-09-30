@@ -3,7 +3,7 @@ package io.github.underthinker.utdonate.core.entity.addon;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.entity.card.Card;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
-import io.github.underthinker.utdonate.core.topup.TopUp;
+import io.github.underthinker.utdonate.core.entity.topup.TopUp;
 import me.hsgamer.hscore.addon.AddonManager;
 import me.hsgamer.hscore.addon.object.Addon;
 

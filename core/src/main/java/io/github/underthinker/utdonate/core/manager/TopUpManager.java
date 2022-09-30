@@ -2,7 +2,8 @@ package io.github.underthinker.utdonate.core.manager;
 
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.entity.card.Card;
-import io.github.underthinker.utdonate.core.topup.TopUp;
+import io.github.underthinker.utdonate.core.entity.topup.TopUp;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ public class TopUpManager {
     private final List<Consumer<Card>> completeListeners;
     private final UTDonateCore core;
 
-    public TopUpManager(UTDonateCore core) {
+    public TopUpManager(@NotNull UTDonateCore core) {
         this.core = core;
         topUpMap = new HashMap<>();
         submitListeners = new LinkedList<>();
@@ -28,35 +29,40 @@ public class TopUpManager {
         completeListeners = new LinkedList<>();
     }
 
-    private static void notifyListeners(List<Consumer<Card>> listeners, Card card) {
-        listeners.forEach(listener -> listener.accept(card));
+    private void notifyListeners(List<Consumer<Card>> listeners, Card card) {
+        core.getSchedulerFactory().runTask(() -> {
+            for (Consumer<Card> listener : listeners) {
+                listener.accept(card);
+            }
+        });
     }
 
-    public void registerTopUp(String name, TopUp topUp) {
+    public void registerTopUp(@NotNull String name, @NotNull TopUp topUp) {
         topUpMap.put(name, topUp);
     }
 
-    public void unregisterTopUp(String name) {
+    public void unregisterTopUp(@NotNull String name) {
         topUpMap.remove(name);
     }
 
-    public void registerSubmitListener(Consumer<Card> listener) {
+    public void registerSubmitListener(@NotNull Consumer<Card> listener) {
         submitListeners.add(listener);
     }
 
-    public void registerCompleteListener(Consumer<Card> listener) {
+    public void registerCompleteListener(@NotNull Consumer<Card> listener) {
         completeListeners.add(listener);
     }
 
-    public void registerFailCheckListener(Consumer<Card> listener) {
+    public void registerFailCheckListener(@NotNull Consumer<Card> listener) {
         failCheckListeners.add(listener);
     }
 
-    public void registerSuccessCheckListener(Consumer<Card> listener) {
+    public void registerSuccessCheckListener(@NotNull Consumer<Card> listener) {
         successCheckListeners.add(listener);
     }
 
-    public CompletableFuture<Boolean> submitAndCheck(Card card) {
+    @NotNull
+    public CompletableFuture<Boolean> submitAndCheck(@NotNull Card card) {
         notifyListeners(submitListeners, card);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         core.getSchedulerFactory().runTaskAsynchronously(() -> {
@@ -74,7 +80,7 @@ public class TopUpManager {
         return future;
     }
 
-    public void complete(Card card) {
+    public void complete(@NotNull Card card) {
         notifyListeners(completeListeners, card);
     }
 }
