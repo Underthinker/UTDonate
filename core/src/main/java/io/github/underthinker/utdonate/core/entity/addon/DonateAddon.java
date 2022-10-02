@@ -45,4 +45,8 @@ public class DonateAddon extends Addon {
     public <T> T createConfig(String name, Class<T> clazz) {
         return getCore().getConfigFactory().createConfig(name, clazz);
     }
+
+    public void completeCard(Card card) {
+        getCore().getTopUpManager().complete(card);
+    }
 }
