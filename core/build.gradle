@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api 'me.hsgamer:hscore-addon:4.1.26'
-    api 'me.hsgamer:hscore-common:4.1.26'
-    api 'me.hsgamer:hscore-config-proxy:4.1.26'
+    api "me.hsgamer:hscore-addon:$core"
+    api "me.hsgamer:hscore-common:$core"
+    api "me.hsgamer:hscore-config-proxy:$core"
 }
