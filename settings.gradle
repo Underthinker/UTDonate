@@ -1,4 +1,5 @@
 rootProject.name = 'UTDonate'
 include 'core'
 include 'spigot'
+include 'thesieutoc'
 
