@@ -41,4 +41,8 @@ public class DonateAddon extends Addon {
     public void registerSuccessCheckListener(Consumer<Card> listener) {
         getCore().getTopUpManager().registerSuccessCheckListener(listener);
     }
+
+    public <T> T createConfig(String name, Class<T> clazz) {
+        return getCore().getConfigFactory().createConfig(name, clazz);
+    }
 }
