@@ -23,5 +23,12 @@ bukkit {
 }
 
 shadowJar {
+    archiveName = "${rootProject.name}-${project.version}-spigot.jar"
+
     relocate 'me.hsgamer.hscore', 'io.github.underthinker.utdonate.lib.hscore'
+}
+
+artifacts {
+    archives shadowJar
+    shadow shadowJar
 }
