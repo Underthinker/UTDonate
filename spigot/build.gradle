@@ -15,7 +15,7 @@ dependencies {
 }
 
 bukkit {
-    name = "${rootProject.name}-Spigot"
+    name = rootProject.name
     description = "Donate for your server"
     version = project.version
     main = "io.github.underthinker.utdonate.spigot.UTDonateSpigot"
