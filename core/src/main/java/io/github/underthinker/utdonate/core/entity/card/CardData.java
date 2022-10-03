@@ -6,7 +6,6 @@ import java.util.Map;
 
 @Value
 public class CardData {
-    long id;
     Card card;
     Map<String, String> data;
 }

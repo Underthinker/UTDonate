@@ -14,7 +14,7 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     private final SpigotConfigFactory configFactory = new SpigotConfigFactory(this);
     private final TopUpManager topUpManager = new TopUpManager(this);
     private final DonateAddonManager donateAddonManager = new DonateAddonManager(this, getClassLoader());
-    private final CardStorageManager cardStorageManager = new CardStorageManager();
+    private final CardStorageManager cardStorageManager = new CardStorageManager(this);
 
     @Override
     public void enable() {

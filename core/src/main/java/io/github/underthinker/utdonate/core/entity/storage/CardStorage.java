@@ -8,11 +8,9 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public interface CardStorage {
-    void setup();
+    boolean setup();
 
     void stop();
-
-    String getName();
 
     CompletableFuture<Map<Long, CardData>> getAll();
 
