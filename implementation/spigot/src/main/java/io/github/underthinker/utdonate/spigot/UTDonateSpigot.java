@@ -3,6 +3,7 @@ package io.github.underthinker.utdonate.spigot;
 import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.config.ConfigFactory;
+import io.github.underthinker.utdonate.core.manager.CardStorageManager;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import io.github.underthinker.utdonate.core.scheduler.SchedulerFactory;
@@ -13,6 +14,7 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     private final SpigotConfigFactory configFactory = new SpigotConfigFactory(this);
     private final TopUpManager topUpManager = new TopUpManager(this);
     private final DonateAddonManager donateAddonManager = new DonateAddonManager(this, getClassLoader());
+    private final CardStorageManager cardStorageManager = new CardStorageManager();
 
     @Override
     public void enable() {
@@ -48,6 +50,11 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     @Override
     public DonateAddonManager getAddonManager() {
         return donateAddonManager;
+    }
+
+    @Override
+    public CardStorageManager getCardStorageManager() {
+        return cardStorageManager;
     }
 
     @Override
