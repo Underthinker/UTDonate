@@ -6,6 +6,7 @@ import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import io.github.underthinker.utdonate.core.scheduler.SchedulerFactory;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public interface UTDonateCore {
     SchedulerFactory getSchedulerFactory();
@@ -17,6 +18,8 @@ public interface UTDonateCore {
     DonateAddonManager getAddonManager();
 
     File getDataFolder();
+
+    Logger getLogger();
 
     default PlatformType getPlatformType() {
         return PlatformType.UNKNOWN;

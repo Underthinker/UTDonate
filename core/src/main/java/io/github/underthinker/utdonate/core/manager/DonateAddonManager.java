@@ -19,13 +19,13 @@ public class DonateAddonManager extends AddonManager {
     @Getter
     private final UTDonateCore core;
 
-    public DonateAddonManager(@NotNull UTDonateCore core, @NotNull Logger logger, @NotNull ClassLoader parentClassLoader) {
-        super(new File(core.getDataFolder(), "addons"), logger, new ManifestAddonDescriptionLoader(), parentClassLoader);
+    public DonateAddonManager(@NotNull UTDonateCore core, @NotNull ClassLoader parentClassLoader) {
+        super(new File(core.getDataFolder(), "addons"), core.getLogger(), new ManifestAddonDescriptionLoader(), parentClassLoader);
         this.core = core;
     }
 
-    public DonateAddonManager(@NotNull UTDonateCore core, @NotNull Logger logger) {
-        super(new File(core.getDataFolder(), "addons"), logger, new ManifestAddonDescriptionLoader());
+    public DonateAddonManager(@NotNull UTDonateCore core) {
+        super(new File(core.getDataFolder(), "addons"), core.getLogger(), new ManifestAddonDescriptionLoader());
         this.core = core;
     }
 

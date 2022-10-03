@@ -12,7 +12,7 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     private final SpigotSchedulerFactory schedulerFactory = new SpigotSchedulerFactory(this);
     private final SpigotConfigFactory configFactory = new SpigotConfigFactory(this);
     private final TopUpManager topUpManager = new TopUpManager(this);
-    private final DonateAddonManager donateAddonManager = new DonateAddonManager(this, getLogger(), getClassLoader());
+    private final DonateAddonManager donateAddonManager = new DonateAddonManager(this, getClassLoader());
 
     @Override
     public void enable() {
