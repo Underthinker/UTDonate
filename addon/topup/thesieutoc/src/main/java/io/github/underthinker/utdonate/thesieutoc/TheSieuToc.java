@@ -1,8 +1,8 @@
 package io.github.underthinker.utdonate.thesieutoc;
 
-import io.github.underthinker.utdonate.core.entity.addon.DonateAddon;
+import io.github.underthinker.utdonate.core.entity.addon.TopUpAddon;
 
-public class TheSieuToc extends DonateAddon {
+public class TheSieuToc extends TopUpAddon {
     @Override
     public void onEnable() {
         super.onEnable();
