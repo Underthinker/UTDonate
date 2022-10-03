@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation project(':core')
-    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     api "me.hsgamer:hscore-bukkit-baseplugin:$core"
     api "me.hsgamer:hscore-bukkit-config:$core"
 }
