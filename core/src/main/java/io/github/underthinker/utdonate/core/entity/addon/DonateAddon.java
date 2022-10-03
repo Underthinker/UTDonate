@@ -3,7 +3,6 @@ package io.github.underthinker.utdonate.core.entity.addon;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.entity.card.Card;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
-import io.github.underthinker.utdonate.core.entity.topup.TopUp;
 import me.hsgamer.hscore.addon.AddonManager;
 import me.hsgamer.hscore.addon.object.Addon;
 
@@ -16,14 +15,6 @@ public class DonateAddon extends Addon {
             throw new IllegalStateException("AddonManager is not an instance of DonateAddonManager");
         }
         return ((DonateAddonManager) addonManager).getCore();
-    }
-
-    public void registerTopUp(String name, TopUp topUp) {
-        getCore().getTopUpManager().registerTopUp(name, topUp);
-    }
-
-    public void unregisterTopUp(String name) {
-        getCore().getTopUpManager().unregisterTopUp(name);
     }
 
     public void registerSubmitListener(Consumer<Card> listener) {
@@ -44,9 +35,5 @@ public class DonateAddon extends Addon {
 
     public <T> T createConfig(String name, Class<T> clazz) {
         return getCore().getConfigFactory().createConfig(name, clazz);
-    }
-
-    public void completeCard(Card card) {
-        getCore().getTopUpManager().complete(card);
     }
 }
