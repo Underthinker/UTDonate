@@ -7,7 +7,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveName = "${rootProject.name}-${project.version}-thesieutoc.jar"
+    archiveFileName = "${rootProject.name}-${project.version}-thesieutoc.jar"
 
     relocate 'me.hsgamer.hscore', 'io.github.underthinker.utdonate.lib.hscore'
 }
