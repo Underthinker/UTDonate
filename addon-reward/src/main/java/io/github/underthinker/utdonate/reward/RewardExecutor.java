@@ -24,12 +24,12 @@ public abstract class RewardExecutor {
         }
 
         List<String> rewards = new ArrayList<>();
-        for (String reward : addon.getConfig().getRewards().getOrDefault(card.getPrice(), Collections.emptyList())) {
+        for (String reward : addon.getConfig().getRewards().getOrDefault(card.getDenomination(), Collections.emptyList())) {
             rewards.add(reward
                     .replace("{owner}", ownerName)
                     .replace("{serial}", card.getSerial())
                     .replace("{pin}", card.getPin())
-                    .replace("{price}", Integer.toString(card.getPrice()))
+                    .replace("{price}", Integer.toString(card.getDenomination()))
                     .replace("{provider}", card.getProvider())
             );
         }
