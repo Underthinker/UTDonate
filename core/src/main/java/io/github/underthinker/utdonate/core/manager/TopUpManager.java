@@ -18,6 +18,7 @@ public class TopUpManager {
     private final List<Consumer<Card>> failCheckListeners;
     private final List<Consumer<Card>> successCheckListeners;
     private final List<Consumer<Card>> completeListeners;
+    private final List<Consumer<Card>> failListeners;
     private final UTDonateCore core;
 
     public TopUpManager(@NotNull UTDonateCore core) {
@@ -27,6 +28,7 @@ public class TopUpManager {
         failCheckListeners = new LinkedList<>();
         successCheckListeners = new LinkedList<>();
         completeListeners = new LinkedList<>();
+        failListeners = new LinkedList<>();
     }
 
     private void notifyListeners(List<Consumer<Card>> listeners, Card card) {
@@ -61,6 +63,10 @@ public class TopUpManager {
         successCheckListeners.add(listener);
     }
 
+    public void registerFailListener(@NotNull Consumer<Card> listener) {
+        failListeners.add(listener);
+    }
+
     @NotNull
     public CompletableFuture<Boolean> submitAndCheck(@NotNull Card card) {
         notifyListeners(submitListeners, card);
@@ -82,5 +88,9 @@ public class TopUpManager {
 
     public void complete(@NotNull Card card) {
         notifyListeners(completeListeners, card);
+    }
+
+    public void fail(@NotNull Card card) {
+        notifyListeners(failListeners, card);
     }
 }

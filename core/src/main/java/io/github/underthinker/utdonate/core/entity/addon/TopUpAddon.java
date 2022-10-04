@@ -15,4 +15,8 @@ public class TopUpAddon extends DonateAddon {
     public void completeCard(Card card) {
         getCore().getTopUpManager().complete(card);
     }
+
+    public void failCard(Card card) {
+        getCore().getTopUpManager().fail(card);
+    }
 }
