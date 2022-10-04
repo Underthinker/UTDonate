@@ -2,4 +2,5 @@ rootProject.name = 'UTDonate'
 include 'core'
 include 'impl-spigot'
 include 'addon-topup-thesieutoc'
+include 'addon-test'
 

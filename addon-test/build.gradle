@@ -1,0 +1,26 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+dependencies {
+    compileOnly project(':core')
+}
+
+shadowJar {
+    archiveFileName = "${rootProject.name}-${project.version}-test.jar"
+
+    relocate 'me.hsgamer.hscore', 'io.github.underthinker.utdonate.lib.hscore'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'io.github.underthinker.utdonate.test.TestAddon'
+        attributes 'Implementation-Title': "${rootProject.name}-test"
+        attributes 'Implementation-Version': project.version
+    }
+}
+
+artifacts {
+    archives shadowJar
+    shadow shadowJar
+}

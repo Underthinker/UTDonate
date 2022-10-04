@@ -42,7 +42,8 @@ public class SpigotJsonCardStorage extends MapBasedCardStorage {
     protected Map<Long, CardData> load(File file) {
         Type type = new TypeToken<Map<Long, CardData>>() { }.getType();
         try (FileReader reader = new FileReader(file)) {
-            return gson.fromJson(reader, type);
+            Map<Long, CardData> map = gson.fromJson(reader, type);
+            return map == null ? Collections.emptyMap() : map;
         } catch (Exception e) {
             core.getLogger().log(Level.WARNING, e, () -> "Failed to load cards from " + file.getName());
             return Collections.emptyMap();
