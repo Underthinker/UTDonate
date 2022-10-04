@@ -26,7 +26,7 @@ public class FlatFileCardStorage extends MapBasedCardStorage {
         list.add(Objects.toString(cardData.getCard().getOwnerName(), ""));
         list.add(cardData.getCard().getSerial());
         list.add(cardData.getCard().getPin());
-        list.add(Integer.toString(cardData.getCard().getPrice()));
+        list.add(Integer.toString(cardData.getCard().getDenomination()));
         list.add(cardData.getCard().getProvider());
         for (Map.Entry<String, String> entry : cardData.getData().entrySet()) {
             list.add(entry.getKey() + "=" + entry.getValue());

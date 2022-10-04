@@ -13,6 +13,6 @@ public class Card {
     String ownerName;
     String serial;
     String pin;
-    int price;
+    int denomination;
     String provider;
 }
