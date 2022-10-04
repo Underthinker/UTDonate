@@ -33,6 +33,10 @@ public class DonateAddon extends Addon {
         getCore().getTopUpManager().registerSuccessCheckListener(listener);
     }
 
+    public void registerFailListener(Consumer<Card> listener) {
+        getCore().getTopUpManager().registerFailListener(listener);
+    }
+
     public <T> T createConfig(String name, Class<T> clazz) {
         return getCore().getConfigFactory().createConfig(name, clazz);
     }
