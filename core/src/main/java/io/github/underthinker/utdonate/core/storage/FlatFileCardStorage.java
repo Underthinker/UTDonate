@@ -31,11 +31,11 @@ public class FlatFileCardStorage extends MapBasedCardStorage {
         for (Map.Entry<String, String> entry : cardData.getData().entrySet()) {
             list.add(entry.getKey() + "=" + entry.getValue());
         }
-        return String.join("|", list);
+        return String.join(",", list);
     }
 
     private static Pair<Long, CardData> deserializeCardData(String string) {
-        String[] split = string.split("\\|");
+        String[] split = string.split(",");
         long id = Long.parseLong(split[0]);
         UUID ownerId = Optional.ofNullable(split[1]).filter(s -> !s.isEmpty()).map(UUID::fromString).orElse(null);
         String ownerName = Optional.ofNullable(split[2]).filter(s -> !s.isEmpty()).orElse(null);
@@ -53,7 +53,7 @@ public class FlatFileCardStorage extends MapBasedCardStorage {
 
     @Override
     protected String getFileExtension() {
-        return "txt";
+        return "csv";
     }
 
     @Override

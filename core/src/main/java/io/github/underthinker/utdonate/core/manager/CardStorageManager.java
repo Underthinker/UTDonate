@@ -21,6 +21,6 @@ public class CardStorageManager extends Builder<CardStorage.Input, CardStorage> 
 
     public CardStorageManager(UTDonateCore core) {
         this(new File(core.getDataFolder(), "storage"));
-        register(input -> new FlatFileCardStorage(core, input), "flatfile");
+        register(input -> new FlatFileCardStorage(core, input), "flatfile", "csv");
     }
 }
