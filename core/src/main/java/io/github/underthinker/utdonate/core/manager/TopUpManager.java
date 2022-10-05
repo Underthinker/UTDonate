@@ -10,13 +10,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class TopUpManager {
     private final Map<String, TopUp> topUpMap;
     private final List<Consumer<Card>> submitListeners;
-    private final List<Consumer<Card>> failCheckListeners;
-    private final List<Consumer<Card>> successCheckListeners;
+    private final List<BiConsumer<String, Card>> failCheckListeners;
+    private final List<BiConsumer<String, Card>> successCheckListeners;
+    private final List<Consumer<Card>> allFailCheckListeners;
     private final List<Consumer<Card>> completeListeners;
     private final List<Consumer<Card>> failListeners;
     private final UTDonateCore core;
@@ -27,6 +29,7 @@ public class TopUpManager {
         submitListeners = new LinkedList<>();
         failCheckListeners = new LinkedList<>();
         successCheckListeners = new LinkedList<>();
+        allFailCheckListeners = new LinkedList<>();
         completeListeners = new LinkedList<>();
         failListeners = new LinkedList<>();
     }
@@ -35,6 +38,14 @@ public class TopUpManager {
         core.getSchedulerFactory().runTask(() -> {
             for (Consumer<Card> listener : listeners) {
                 listener.accept(card);
+            }
+        });
+    }
+
+    private void notifyListeners(List<BiConsumer<String, Card>> listeners, String topUpName, Card card) {
+        core.getSchedulerFactory().runTask(() -> {
+            for (BiConsumer<String, Card> listener : listeners) {
+                listener.accept(topUpName, card);
             }
         });
     }
@@ -55,16 +66,28 @@ public class TopUpManager {
         completeListeners.add(listener);
     }
 
-    public void registerFailCheckListener(@NotNull Consumer<Card> listener) {
-        failCheckListeners.add(listener);
+    public void registerFailListener(@NotNull Consumer<Card> listener) {
+        failListeners.add(listener);
     }
 
-    public void registerSuccessCheckListener(@NotNull Consumer<Card> listener) {
+    public void registerSuccessCheckListener(@NotNull BiConsumer<String, Card> listener) {
         successCheckListeners.add(listener);
     }
 
-    public void registerFailListener(@NotNull Consumer<Card> listener) {
-        failListeners.add(listener);
+    public void registerSuccessCheckListener(@NotNull Consumer<Card> listener) {
+        successCheckListeners.add((s, card) -> listener.accept(card));
+    }
+
+    public void registerFailCheckListener(@NotNull BiConsumer<String, Card> listener) {
+        failCheckListeners.add(listener);
+    }
+
+    public void registerFailCheckListener(@NotNull Consumer<Card> listener) {
+        failCheckListeners.add((s, card) -> listener.accept(card));
+    }
+
+    public void registerAllFailCheckListener(@NotNull Consumer<Card> listener) {
+        allFailCheckListeners.add(listener);
     }
 
     @NotNull
@@ -75,12 +98,14 @@ public class TopUpManager {
             for (Map.Entry<String, TopUp> entry : topUpMap.entrySet()) {
                 String topUpName = entry.getKey();
                 if (entry.getValue().submitAndCheck(card)) {
-                    notifyListeners(successCheckListeners, card);
+                    notifyListeners(successCheckListeners, topUpName, card);
                     future.complete(true);
                     return;
+                } else {
+                    notifyListeners(failCheckListeners, topUpName, card);
                 }
             }
-            notifyListeners(failCheckListeners, card);
+            notifyListeners(allFailCheckListeners, card);
             future.complete(false);
         });
         return future;

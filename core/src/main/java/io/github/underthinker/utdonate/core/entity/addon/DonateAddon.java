@@ -6,6 +6,7 @@ import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
 import me.hsgamer.hscore.addon.AddonManager;
 import me.hsgamer.hscore.addon.object.Addon;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class DonateAddon extends Addon {
@@ -25,16 +26,28 @@ public class DonateAddon extends Addon {
         getCore().getTopUpManager().registerCompleteListener(listener);
     }
 
-    public void registerFailCheckListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerFailCheckListener(listener);
+    public void registerFailListener(Consumer<Card> listener) {
+        getCore().getTopUpManager().registerFailListener(listener);
+    }
+
+    public void registerSuccessCheckListener(BiConsumer<String, Card> listener) {
+        getCore().getTopUpManager().registerSuccessCheckListener(listener);
     }
 
     public void registerSuccessCheckListener(Consumer<Card> listener) {
         getCore().getTopUpManager().registerSuccessCheckListener(listener);
     }
 
-    public void registerFailListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerFailListener(listener);
+    public void registerFailCheckListener(BiConsumer<String, Card> listener) {
+        getCore().getTopUpManager().registerFailCheckListener(listener);
+    }
+
+    public void registerFailCheckListener(Consumer<Card> listener) {
+        getCore().getTopUpManager().registerFailCheckListener(listener);
+    }
+
+    public void registerAllFailCheckListener(Consumer<Card> listener) {
+        getCore().getTopUpManager().registerAllFailCheckListener(listener);
     }
 
     public <T> T createConfig(String name, Class<T> clazz) {

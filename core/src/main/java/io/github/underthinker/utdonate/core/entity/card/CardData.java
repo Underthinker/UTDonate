@@ -11,10 +11,6 @@ public class CardData {
     Card card;
     Map<String, String> data;
 
-    public List<String> serializeData() {
-        return data.entrySet().stream().map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.toList());
-    }
-
     public static Map<String, String> deserializeData(List<String> list) {
         Map<String, String> data = new HashMap<>();
         for (String string : list) {
@@ -42,6 +38,10 @@ public class CardData {
                 .map(CardData::deserializeData)
                 .orElseGet(HashMap::new);
         return new CardData(card, data);
+    }
+
+    public List<String> serializeData() {
+        return data.entrySet().stream().map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.toList());
     }
 
     public Map<String, Object> serialize() {
