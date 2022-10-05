@@ -25,14 +25,7 @@ public class CardData {
     }
 
     public static CardData deserialize(Map<String, Object> map) {
-        Card card = new Card(
-                Optional.ofNullable(map.get("ownerId")).map(Objects::toString).map(UUID::fromString).orElse(null),
-                Optional.ofNullable(map.get("ownerName")).map(Objects::toString).orElse(null),
-                Objects.toString(map.get("serial")),
-                Objects.toString(map.get("pin")),
-                ((Number) Double.parseDouble(Objects.toString(map.get("denomination")))).intValue(),
-                Objects.toString(map.get("provider"))
-        );
+        Card card = Card.deserialize(map);
         Map<String, String> data = Optional.ofNullable(map.get("data"))
                 .map(o -> CollectionUtils.createStringListFromObject(o, true))
                 .map(CardData::deserializeData)
@@ -45,13 +38,7 @@ public class CardData {
     }
 
     public Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("ownerId", Objects.toString(card.getOwnerId()));
-        map.put("ownerName", card.getOwnerName());
-        map.put("serial", card.getSerial());
-        map.put("pin", card.getPin());
-        map.put("denomination", card.getDenomination());
-        map.put("provider", card.getProvider());
+        Map<String, Object> map = new HashMap<>(card.serialize());
         map.put("data", serializeData());
         return map;
     }
