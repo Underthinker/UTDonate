@@ -3,6 +3,7 @@ package io.github.underthinker.utdonate.core.manager;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.entity.storage.CardStorage;
 import io.github.underthinker.utdonate.core.storage.FlatFileCardStorage;
+import io.github.underthinker.utdonate.core.storage.JsonCardStorage;
 import lombok.Getter;
 import me.hsgamer.hscore.builder.Builder;
 
@@ -22,5 +23,6 @@ public class CardStorageManager extends Builder<CardStorage.Input, CardStorage> 
     public CardStorageManager(UTDonateCore core) {
         this(new File(core.getDataFolder(), "storage"));
         register(input -> new FlatFileCardStorage(core, input), "flatfile", "csv");
+        register(input -> new JsonCardStorage(core, input), "json");
     }
 }

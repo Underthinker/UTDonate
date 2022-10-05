@@ -28,9 +28,7 @@ public class FlatFileCardStorage extends MapBasedCardStorage {
         list.add(cardData.getCard().getPin());
         list.add(Integer.toString(cardData.getCard().getDenomination()));
         list.add(cardData.getCard().getProvider());
-        for (Map.Entry<String, String> entry : cardData.getData().entrySet()) {
-            list.add(entry.getKey() + "=" + entry.getValue());
-        }
+        list.addAll(cardData.serializeData());
         return String.join(",", list);
     }
 
@@ -43,11 +41,7 @@ public class FlatFileCardStorage extends MapBasedCardStorage {
         String pin = split[4];
         int price = Integer.parseInt(split[5]);
         String provider = split[6];
-        Map<String, String> data = new HashMap<>();
-        for (int i = 7; i < split.length; i++) {
-            String[] dataSplit = split[i].split("=", 2);
-            data.put(dataSplit[0], dataSplit[1]);
-        }
+        Map<String, String> data = CardData.deserializeData(Arrays.copyOfRange(split, 7, split.length));
         return Pair.of(id, new CardData(new Card(ownerId, ownerName, serial, pin, price, provider), data));
     }
 

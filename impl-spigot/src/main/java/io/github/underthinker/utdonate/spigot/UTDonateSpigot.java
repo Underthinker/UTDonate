@@ -3,11 +3,11 @@ package io.github.underthinker.utdonate.spigot;
 import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.config.ConfigFactory;
+import io.github.underthinker.utdonate.core.json.JsonFactory;
 import io.github.underthinker.utdonate.core.manager.CardStorageManager;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import io.github.underthinker.utdonate.core.scheduler.SchedulerFactory;
-import io.github.underthinker.utdonate.spigot.storage.SpigotJsonCardStorage;
 import me.hsgamer.hscore.bukkit.baseplugin.BasePlugin;
 
 public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
@@ -16,11 +16,7 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     private final TopUpManager topUpManager = new TopUpManager(this);
     private final DonateAddonManager donateAddonManager = new DonateAddonManager(this, getClassLoader());
     private final CardStorageManager cardStorageManager = new CardStorageManager(this);
-
-    @Override
-    public void load() {
-        cardStorageManager.register(input -> new SpigotJsonCardStorage(this, input), "json");
-    }
+    private final SpigotJsonFactory jsonFactory = new SpigotJsonFactory();
 
     @Override
     public void enable() {
@@ -61,6 +57,11 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     @Override
     public CardStorageManager getCardStorageManager() {
         return cardStorageManager;
+    }
+
+    @Override
+    public JsonFactory getJsonFactory() {
+        return jsonFactory;
     }
 
     @Override
