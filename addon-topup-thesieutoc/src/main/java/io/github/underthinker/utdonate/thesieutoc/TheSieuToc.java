@@ -4,14 +4,11 @@ import io.github.underthinker.utdonate.core.entity.addon.TopUpAddon;
 import lombok.Getter;
 
 public class TheSieuToc extends TopUpAddon {
-
-    private TheSieuTocApi api;
     @Getter
-    private TheSieuTocConfig config;
+    private final TheSieuTocConfig config = createConfig("thesieutoc", TheSieuTocConfig.class);
 
     @Override
     public void onEnable() {
-        config = createConfig("config", TheSieuTocConfig.class);
         TheSieuTocApi api;
         switch (config.getApiVersion()) {
             case V1:
@@ -23,7 +20,7 @@ public class TheSieuToc extends TopUpAddon {
             default:
                 throw new IllegalStateException("Unexpected value: " + config.getApiVersion());
         }
-        TheSieuTocTopUp topUp = new TheSieuTocTopUp(api);
+        TheSieuTocTopUp topUp = new TheSieuTocTopUp(this, api);
         registerTopUp("TheSieuToc", topUp);
 
     }
