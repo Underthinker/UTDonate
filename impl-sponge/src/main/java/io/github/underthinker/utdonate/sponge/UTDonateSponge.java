@@ -19,14 +19,14 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.logging.Logger;
+import java.util.logging.Handler;
 
 @Getter
 @Plugin("utdonate")
 public class UTDonateSponge implements UTDonateCore {
     private final PluginContainer pluginContainer;
     private final Game game;
-    private final Logger logger;
+    private final java.util.logging.Logger logger;
     private final File dataFolder;
     private final TopUpManager topUpManager;
     private final DonateAddonManager addonManager;
@@ -36,10 +36,10 @@ public class UTDonateSponge implements UTDonateCore {
     private final SpongeSchedulerFactory schedulerFactory;
 
     @Inject
-    public UTDonateSponge(PluginContainer pluginContainer, Game game, @ConfigDir(sharedRoot = false) Path dataFolder) {
+    public UTDonateSponge(PluginContainer pluginContainer, Game game, org.apache.logging.log4j.Logger log4jLogger, @ConfigDir(sharedRoot = false) Path dataFolder) {
         this.pluginContainer = pluginContainer;
         this.game = game;
-        this.logger = Logger.getLogger("UTDonate");
+        this.logger = buildJulLogger(log4jLogger);
         this.dataFolder = dataFolder.toFile();
         this.topUpManager = new TopUpManager(this);
         this.addonManager = new DonateAddonManager(this, getClass().getClassLoader());
@@ -47,6 +47,16 @@ public class UTDonateSponge implements UTDonateCore {
         this.cardStorageManager = new CardStorageManager(this);
         this.configFactory = new SpongeConfigFactory(this);
         this.schedulerFactory = new SpongeSchedulerFactory(this);
+    }
+
+    private static java.util.logging.Logger buildJulLogger(org.apache.logging.log4j.Logger log4jLogger) {
+        java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("UTDonate");
+        for (Handler handler : julLogger.getHandlers()) {
+            julLogger.removeHandler(handler);
+        }
+        julLogger.addHandler(new Log4j2Handler(log4jLogger));
+        julLogger.setUseParentHandlers(false);
+        return julLogger;
     }
 
     @Listener

@@ -34,6 +34,7 @@ shadowJar {
     archiveFileName = "${rootProject.name}-${project.version}-sponge.jar"
 
     relocate 'me.hsgamer.hscore', 'io.github.underthinker.utdonate.lib.hscore'
+    relocate 'org.apache.logging.log4j.jul', 'io.github.underthinker.utdonate.lib.log4j.jul'
 }
 
 artifacts {
