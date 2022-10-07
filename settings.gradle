@@ -1,6 +1,7 @@
 rootProject.name = 'UTDonate'
 include 'core'
 include 'impl-spigot'
+include 'impl-sponge'
 include 'addon-test'
 include 'addon-topup-thesieutoc'
 include 'addon-reward'
