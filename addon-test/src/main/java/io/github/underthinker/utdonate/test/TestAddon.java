@@ -1,6 +1,5 @@
 package io.github.underthinker.utdonate.test;
 
-import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.entity.addon.DonateAddon;
 import io.github.underthinker.utdonate.core.entity.card.Card;
 import io.github.underthinker.utdonate.core.entity.card.CardData;
@@ -14,11 +13,6 @@ public class TestAddon extends DonateAddon {
     private final CardStorage cardStorage = getCore().getCardStorageManager()
             .build(config.getTestStorageType(), new CardStorage.Input("test-storage", Collections.emptyMap()))
             .orElseThrow(() -> new RuntimeException("Failed to create test storage"));
-
-    @Override
-    public boolean onLoad() {
-        return getCore().getPlatformType() == PlatformType.SPIGOT;
-    }
 
     @Override
     public void onEnable() {
