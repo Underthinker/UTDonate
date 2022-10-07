@@ -1,4 +1,5 @@
 import org.spongepowered.gradle.plugin.config.PluginLoaders
+import org.spongepowered.plugin.metadata.model.PluginDependency
 
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
@@ -20,7 +21,12 @@ sponge {
         version("1.0")
     }
     plugin("utdonate") {
+        displayName(rootProject.name)
         entrypoint("io.github.underthinker.utdonate.sponge.UTDonateSponge")
+        dependency("spongeapi") {
+            loadOrder(PluginDependency.LoadOrder.AFTER)
+            optional(false)
+        }
     }
 }
 
