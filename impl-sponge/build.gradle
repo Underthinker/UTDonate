@@ -30,6 +30,10 @@ sponge {
     }
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
 shadowJar {
     archiveFileName = "${rootProject.name}-${project.version}-sponge.jar"
 
