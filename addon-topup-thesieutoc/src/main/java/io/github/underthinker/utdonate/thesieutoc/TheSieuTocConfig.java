@@ -1,6 +1,7 @@
 package io.github.underthinker.utdonate.thesieutoc;
 
 import io.github.underthinker.utdonate.core.entity.config.SimpleConfig;
+import me.hsgamer.hscore.config.annotation.Comment;
 import me.hsgamer.hscore.config.annotation.ConfigPath;
 import me.hsgamer.hscore.config.annotation.converter.Converter;
 
@@ -10,31 +11,37 @@ import java.util.regex.Pattern;
 public interface TheSieuTocConfig extends SimpleConfig {
 
     @ConfigPath(value = "api.version", converter = ApiVersionConverter.class)
+    @Comment("The version of the API\nSupported: V1, V2")
     default TheSieuTocApi.Version getApiVersion() {
         return TheSieuTocApi.Version.V1;
     }
 
     @ConfigPath("api.v1.key")
+    @Comment("The key of the V1 API")
     default String getApiKey() {
         return "YOUR_API_KEY";
     }
 
     @ConfigPath("api.v1.secret")
+    @Comment("The secret of the V1 API")
     default String getApiSecret() {
         return "YOUR_API_SECRET";
     }
 
     @ConfigPath(value = "api.v1.checking.period", converter = TimeConverter.class)
+    @Comment("The period to check the status of the transaction")
     default long getCheckingPeriod() {
         return 10;
     }
 
     @ConfigPath("api.v2.key")
+    @Comment("The key of the V2 API")
     default String getApiV2Key() {
         return "YOUR_API_V2_KEY";
     }
 
     @ConfigPath("api.v2.callback")
+    @Comment("The callback URL of the V2 API")
     default String getApiV2Callback() {
         return "https://example.com:8080/utdonate/thesieutoc/callback";
     }
