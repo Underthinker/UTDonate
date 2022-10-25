@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class SpigotRewardExecutor extends RewardExecutor {
     public SpigotRewardExecutor(RewardAddon addon) {
@@ -24,7 +25,7 @@ public class SpigotRewardExecutor extends RewardExecutor {
     }
 
     @Override
-    protected String getOwnerName(Card card) {
+    protected CompletableFuture<String> getOwnerName(Card card) {
         String ownerName;
         if (addon.getConfig().isUseOwnerNameOnly()) {
             ownerName = card.getOwnerName();
@@ -34,6 +35,6 @@ public class SpigotRewardExecutor extends RewardExecutor {
                     .map(OfflinePlayer::getName)
                     .orElseGet(card::getOwnerName);
         }
-        return ownerName;
+        return CompletableFuture.completedFuture(ownerName);
     }
 }

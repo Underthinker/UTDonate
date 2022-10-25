@@ -1,26 +1,31 @@
 package io.github.underthinker.utdonate.reward;
 
-import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.entity.addon.DonateAddon;
 import io.github.underthinker.utdonate.reward.handler.SpigotRewardExecutor;
+import io.github.underthinker.utdonate.reward.handler.SpongeRewardExecutor;
 
 public class RewardAddon extends DonateAddon {
     private final RewardConfig config = createConfig("reward", RewardConfig.class);
+    private RewardExecutor rewardExecutor;
 
     @Override
     public boolean onLoad() {
-        return getCore().getPlatformType() != PlatformType.UNKNOWN;
+        switch (getCore().getPlatformType()) {
+            case SPIGOT:
+                rewardExecutor = new SpigotRewardExecutor(this);
+                break;
+            case SPONGE:
+                rewardExecutor = new SpongeRewardExecutor(this);
+                break;
+            case UNKNOWN:
+                return false;
+        }
+        return rewardExecutor != null;
     }
 
     @Override
     public void onEnable() {
-        RewardExecutor executor = null;
-        if (getCore().getPlatformType() == PlatformType.SPIGOT) {
-            executor = new SpigotRewardExecutor(this);
-        }
-        if (executor != null) {
-            registerCompleteListener(executor::execute);
-        }
+        registerCompleteListener(rewardExecutor::execute);
     }
 
     public RewardConfig getConfig() {

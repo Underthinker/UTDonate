@@ -5,6 +5,7 @@ import io.github.underthinker.utdonate.core.entity.card.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class RewardExecutor {
     protected final RewardAddon addon;
@@ -15,24 +16,24 @@ public abstract class RewardExecutor {
 
     protected abstract void execute(Card card, List<String> rewards);
 
-    protected abstract String getOwnerName(Card card);
+    protected abstract CompletableFuture<String> getOwnerName(Card card);
 
     public void execute(Card card) {
-        String ownerName = getOwnerName(card);
-        if (ownerName == null) {
-            return;
-        }
-
-        List<String> rewards = new ArrayList<>();
-        for (String reward : addon.getConfig().getRewards().getOrDefault(card.getDenomination(), Collections.emptyList())) {
-            rewards.add(reward
-                    .replace("{owner}", ownerName)
-                    .replace("{serial}", card.getSerial())
-                    .replace("{pin}", card.getPin())
-                    .replace("{price}", Integer.toString(card.getDenomination()))
-                    .replace("{provider}", card.getProvider())
-            );
-        }
-        execute(card, rewards);
+        getOwnerName(card).thenAccept(ownerName -> {
+            if (ownerName == null) {
+                return;
+            }
+            List<String> rewards = new ArrayList<>();
+            for (String reward : addon.getConfig().getRewards().getOrDefault(card.getDenomination(), Collections.emptyList())) {
+                rewards.add(reward
+                        .replace("{owner}", ownerName)
+                        .replace("{serial}", card.getSerial())
+                        .replace("{pin}", card.getPin())
+                        .replace("{price}", Integer.toString(card.getDenomination()))
+                        .replace("{provider}", card.getProvider())
+                );
+            }
+            execute(card, rewards);
+        });
     }
 }
