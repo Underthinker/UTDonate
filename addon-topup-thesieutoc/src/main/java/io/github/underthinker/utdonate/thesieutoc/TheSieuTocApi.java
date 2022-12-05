@@ -8,7 +8,6 @@ import java.net.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static io.github.underthinker.utdonate.thesieutoc.TheSieuTocApi.Constants.*;
@@ -62,33 +61,30 @@ public class TheSieuTocApi {
     }
 
     // TODO: v2
-    public CompletableFuture<Void> listenCallback(int port) {
-        return CompletableFuture.runAsync(() -> {
-            try (ServerSocket serverSocket = new ServerSocket(port)) {
-                while (!serverSocket.isClosed()) {
-                    Socket socket = serverSocket.accept();
-                    try (InputStream inputStream = socket.getInputStream()) {
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                        StringBuilder builder = new StringBuilder();
-                        @SuppressWarnings("unused") String headers;
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            builder.append(line);
-                            if (line.isEmpty()) { // end of headers
-                                headers = builder.toString();
-                                builder.setLength(0); // reset builder
-                            }
-                        }
-                        String response = builder.toString();
-                        for (Consumer<String> listener : callbackListeners) {
-                            listener.accept(response);
-                        }
+    public ServerSocket listenCallback(int port) throws IOException {
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            while (!serverSocket.isClosed()) {
+                Socket socket = serverSocket.accept();
+                try (InputStream inputStream = socket.getInputStream()) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder builder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        // end of headers
+                        if (line.isEmpty()) break;
+                    }
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                    String response = builder.toString();
+                    for (Consumer<String> listener : callbackListeners) {
+                        listener.accept(response);
                     }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        });
+            return serverSocket;
+        }
     }
 
     public String check(String transactionId) throws IOException {

@@ -15,7 +15,7 @@ public class TheSieuToc extends TopUpAddon {
                 api = new TheSieuTocApi(config.getApiKey(), config.getApiSecret());
                 break;
             case V2:
-                api = new TheSieuTocApi(config.getApiKey());
+                api = new TheSieuTocApi(config.getApiV2Key());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + config.getApiVersion());
