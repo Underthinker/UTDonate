@@ -18,7 +18,7 @@ public interface CardStorage {
 
     CompletableFuture<CardData> get(long id);
 
-    CompletableFuture<Void> save(CardData card);
+    CompletableFuture<Long> save(CardData card);
 
     CompletableFuture<Void> remove(long id);
 

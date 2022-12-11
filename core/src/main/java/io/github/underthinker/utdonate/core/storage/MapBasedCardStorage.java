@@ -90,14 +90,15 @@ public abstract class MapBasedCardStorage implements CardStorage {
     }
 
     @Override
-    public CompletableFuture<Void> save(CardData card) {
-        return CompletableFuture.runAsync(() -> {
+    public CompletableFuture<Long> save(CardData card) {
+        return CompletableFuture.supplyAsync(() -> {
             long nextId;
             do {
                 nextId = ThreadLocalRandom.current().nextLong();
             } while (cards.containsKey(nextId));
             cards.put(nextId, card);
             scheduleSave();
+            return nextId;
         });
     }
 
