@@ -3,6 +3,7 @@ package io.github.underthinker.utdonate.test;
 import io.github.underthinker.utdonate.core.entity.addon.DonateAddon;
 import io.github.underthinker.utdonate.core.entity.card.Card;
 import io.github.underthinker.utdonate.core.entity.card.CardData;
+import io.github.underthinker.utdonate.core.entity.listener.ListenerType;
 import io.github.underthinker.utdonate.core.entity.storage.CardStorage;
 
 import java.util.Collections;
@@ -17,25 +18,24 @@ public class TestAddon extends DonateAddon {
     @Override
     public void onEnable() {
         cardStorage.setup();
+        registerListener(ListenerType.COMPLETE, "test", card -> cardStorage.save(new CardData(card, Collections.emptyMap())));
     }
 
     @Override
     public void onPostEnable() {
-        cardStorage.save(new CardData(
-                new Card(
-                        UUID.randomUUID(),
-                        "test-card",
-                        "test-card",
-                        "test-card",
-                        100000,
-                        "test-card"
-                ),
-                Collections.emptyMap()
+        getCore().getTopUpManager().complete(new Card(
+                UUID.randomUUID(),
+                "test",
+                "test",
+                "test",
+                100,
+                "test"
         ));
     }
 
     @Override
     public void onDisable() {
         cardStorage.stop();
+        unregisterListener(ListenerType.COMPLETE, "test");
     }
 }
