@@ -5,6 +5,7 @@ import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.manager.CardStorageManager;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
+import io.github.underthinker.utdonate.core.manager.ListenerManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import lombok.Getter;
 import org.spongepowered.api.Game;
@@ -29,6 +30,7 @@ public class UTDonateSponge implements UTDonateCore {
     private final java.util.logging.Logger logger;
     private final File dataFolder;
     private final TopUpManager topUpManager;
+    private final ListenerManager listenerManager;
     private final DonateAddonManager addonManager;
     private final SpongeJsonFactory jsonFactory;
     private final CardStorageManager cardStorageManager;
@@ -42,6 +44,7 @@ public class UTDonateSponge implements UTDonateCore {
         this.logger = buildJulLogger(log4jLogger);
         this.dataFolder = dataFolder.toFile();
         this.topUpManager = new TopUpManager(this);
+        this.listenerManager = new ListenerManager(this);
         this.addonManager = new DonateAddonManager(this, getClass().getClassLoader());
         this.jsonFactory = new SpongeJsonFactory();
         this.cardStorageManager = new CardStorageManager(this);

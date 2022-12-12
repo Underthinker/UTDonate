@@ -2,55 +2,25 @@ package io.github.underthinker.utdonate.core.manager;
 
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.entity.card.Card;
+import io.github.underthinker.utdonate.core.entity.listener.ListenerType;
 import io.github.underthinker.utdonate.core.entity.topup.TopUp;
+import io.github.underthinker.utdonate.core.entity.value.CardAndTopUp;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * The {@link TopUp} manager
  */
 public class TopUpManager {
     private final Map<String, TopUp> topUpMap;
-    private final List<Consumer<Card>> submitListeners;
-    private final List<BiConsumer<String, Card>> failCheckListeners;
-    private final List<BiConsumer<String, Card>> successCheckListeners;
-    private final List<Consumer<Card>> allFailCheckListeners;
-    private final List<Consumer<Card>> completeListeners;
-    private final List<Consumer<Card>> failListeners;
     private final UTDonateCore core;
 
     public TopUpManager(@NotNull UTDonateCore core) {
         this.core = core;
         topUpMap = new HashMap<>();
-        submitListeners = new LinkedList<>();
-        failCheckListeners = new LinkedList<>();
-        successCheckListeners = new LinkedList<>();
-        allFailCheckListeners = new LinkedList<>();
-        completeListeners = new LinkedList<>();
-        failListeners = new LinkedList<>();
-    }
-
-    private void notifyListeners(List<Consumer<Card>> listeners, Card card) {
-        core.getSchedulerFactory().runTask(() -> {
-            for (Consumer<Card> listener : listeners) {
-                listener.accept(card);
-            }
-        });
-    }
-
-    private void notifyListeners(List<BiConsumer<String, Card>> listeners, String topUpName, Card card) {
-        core.getSchedulerFactory().runTask(() -> {
-            for (BiConsumer<String, Card> listener : listeners) {
-                listener.accept(topUpName, card);
-            }
-        });
     }
 
     /**
@@ -73,78 +43,6 @@ public class TopUpManager {
     }
 
     /**
-     * Register a listener called when a card is submitted
-     *
-     * @param listener the listener
-     */
-    public void registerSubmitListener(@NotNull Consumer<Card> listener) {
-        submitListeners.add(listener);
-    }
-
-    /**
-     * Register a listener called when a card is completed
-     *
-     * @param listener the listener
-     */
-    public void registerCompleteListener(@NotNull Consumer<Card> listener) {
-        completeListeners.add(listener);
-    }
-
-    /**
-     * Register a listener called when a card is failed
-     *
-     * @param listener the listener
-     */
-    public void registerFailListener(@NotNull Consumer<Card> listener) {
-        failListeners.add(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider accepts a card
-     *
-     * @param listener the listener
-     */
-    public void registerSuccessCheckListener(@NotNull BiConsumer<String, Card> listener) {
-        successCheckListeners.add(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider accepts a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerSuccessCheckListener(@NotNull Consumer<Card> listener) {
-        successCheckListeners.add((s, card) -> listener.accept(card));
-    }
-
-    /**
-     * Register a listener called when a top-up provider rejects a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerFailCheckListener(@NotNull BiConsumer<String, Card> listener) {
-        failCheckListeners.add(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider rejects a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerFailCheckListener(@NotNull Consumer<Card> listener) {
-        failCheckListeners.add((s, card) -> listener.accept(card));
-    }
-
-    /**
-     * Register a listener called when all top-up providers reject a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerAllFailCheckListener(@NotNull Consumer<Card> listener) {
-        allFailCheckListeners.add(listener);
-    }
-
-    /**
      * Submit a top-up request for a card
      *
      * @param card The card to top-up
@@ -152,20 +50,21 @@ public class TopUpManager {
      */
     @NotNull
     public CompletableFuture<Boolean> submit(@NotNull Card card) {
-        notifyListeners(submitListeners, card);
+        core.getListenerManager().notifyListeners(ListenerType.SUBMIT, card);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         core.getSchedulerFactory().runTaskAsynchronously(() -> {
             for (Map.Entry<String, TopUp> entry : topUpMap.entrySet()) {
                 String topUpName = entry.getKey();
-                if (entry.getValue().submit(card)) {
-                    notifyListeners(successCheckListeners, topUpName, card);
+                TopUp topUp = entry.getValue();
+                if (topUp.submit(card)) {
+                    core.getListenerManager().notifyListeners(ListenerType.SUCCESS_SUBMIT, new CardAndTopUp(topUpName, topUp, card));
                     future.complete(true);
                     return;
                 } else {
-                    notifyListeners(failCheckListeners, topUpName, card);
+                    core.getListenerManager().notifyListeners(ListenerType.FAIL_SUBMIT, new CardAndTopUp(topUpName, topUp, card));
                 }
             }
-            notifyListeners(allFailCheckListeners, card);
+            core.getListenerManager().notifyListeners(ListenerType.ALL_FAIL_SUBMIT, card);
             future.complete(false);
         });
         return future;
@@ -178,7 +77,7 @@ public class TopUpManager {
      * @param card the {@link Card}
      */
     public void complete(@NotNull Card card) {
-        notifyListeners(completeListeners, card);
+        core.getListenerManager().notifyListeners(ListenerType.COMPLETE, card);
     }
 
     /**
@@ -188,6 +87,6 @@ public class TopUpManager {
      * @param card the {@link Card}
      */
     public void fail(@NotNull Card card) {
-        notifyListeners(failListeners, card);
+        core.getListenerManager().notifyListeners(ListenerType.FAIL, card);
     }
 }

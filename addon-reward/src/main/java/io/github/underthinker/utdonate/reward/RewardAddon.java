@@ -1,6 +1,7 @@
 package io.github.underthinker.utdonate.reward;
 
 import io.github.underthinker.utdonate.core.entity.addon.DonateAddon;
+import io.github.underthinker.utdonate.core.entity.listener.ListenerType;
 import io.github.underthinker.utdonate.reward.handler.SpigotRewardExecutor;
 import io.github.underthinker.utdonate.reward.handler.SpongeRewardExecutor;
 
@@ -25,7 +26,12 @@ public class RewardAddon extends DonateAddon {
 
     @Override
     public void onEnable() {
-        registerCompleteListener(rewardExecutor::execute);
+        registerListener(ListenerType.COMPLETE, "reward", rewardExecutor::execute);
+    }
+
+    @Override
+    public void onDisable() {
+        unregisterListener(ListenerType.COMPLETE, "reward");
     }
 
     public RewardConfig getConfig() {

@@ -4,6 +4,7 @@ import io.github.underthinker.utdonate.core.config.ConfigFactory;
 import io.github.underthinker.utdonate.core.json.JsonFactory;
 import io.github.underthinker.utdonate.core.manager.CardStorageManager;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
+import io.github.underthinker.utdonate.core.manager.ListenerManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import io.github.underthinker.utdonate.core.scheduler.SchedulerFactory;
 
@@ -34,6 +35,11 @@ public interface UTDonateCore {
      * @return the {@link io.github.underthinker.utdonate.core.entity.topup.TopUp} manager
      */
     TopUpManager getTopUpManager();
+
+    /**
+     * Get the listener manager
+     */
+    ListenerManager getListenerManager();
 
     /**
      * Get the addon manager

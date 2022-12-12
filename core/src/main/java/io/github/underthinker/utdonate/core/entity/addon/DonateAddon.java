@@ -1,12 +1,11 @@
 package io.github.underthinker.utdonate.core.entity.addon;
 
 import io.github.underthinker.utdonate.core.UTDonateCore;
-import io.github.underthinker.utdonate.core.entity.card.Card;
+import io.github.underthinker.utdonate.core.entity.listener.ListenerType;
 import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
 import me.hsgamer.hscore.addon.AddonManager;
 import me.hsgamer.hscore.addon.object.Addon;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -27,75 +26,26 @@ public class DonateAddon extends Addon {
     }
 
     /**
-     * Register a listener called when a card is submitted
+     * Register a listener
      *
-     * @param listener the listener
+     * @param listenerType the type of the listener
+     * @param name         the name of the listener
+     * @param consumer     the listener
+     * @param <T>          the type of the value passed to the consumer
      */
-    public void registerSubmitListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerSubmitListener(listener);
+    public <T> void registerListener(ListenerType<T> listenerType, String name, Consumer<T> consumer) {
+        getCore().getListenerManager().registerListener(listenerType, getDescription().getName() + "|" + name, consumer);
     }
 
     /**
-     * Register a listener called when a card is completed
+     * Register a listener
      *
-     * @param listener the listener
+     * @param listenerType the type of the listener
+     * @param name         the name of the listener
+     * @param <T>          the type of the value passed to the consumer
      */
-    public void registerCompleteListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerCompleteListener(listener);
-    }
-
-    /**
-     * Register a listener called when a card is failed
-     *
-     * @param listener the listener
-     */
-    public void registerFailListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerFailListener(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider accepts a card
-     *
-     * @param listener the listener
-     */
-    public void registerSuccessCheckListener(BiConsumer<String, Card> listener) {
-        getCore().getTopUpManager().registerSuccessCheckListener(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider accepts a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerSuccessCheckListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerSuccessCheckListener(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider rejects a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerFailCheckListener(BiConsumer<String, Card> listener) {
-        getCore().getTopUpManager().registerFailCheckListener(listener);
-    }
-
-    /**
-     * Register a listener called when a top-up provider rejects a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerFailCheckListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerFailCheckListener(listener);
-    }
-
-    /**
-     * Register a listener called when all top-up providers reject a card submission
-     *
-     * @param listener the listener
-     */
-    public void registerAllFailCheckListener(Consumer<Card> listener) {
-        getCore().getTopUpManager().registerAllFailCheckListener(listener);
+    public <T> void unregisterListener(ListenerType<T> listenerType, String name) {
+        getCore().getListenerManager().unregisterListener(listenerType, getDescription().getName() + "|" + name);
     }
 
     /**
