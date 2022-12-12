@@ -3,5 +3,5 @@ package io.github.underthinker.utdonate.core.entity.topup;
 import io.github.underthinker.utdonate.core.entity.card.Card;
 
 public interface TopUp {
-    boolean submitAndCheck(Card card);
+    boolean submit(Card card);
 }

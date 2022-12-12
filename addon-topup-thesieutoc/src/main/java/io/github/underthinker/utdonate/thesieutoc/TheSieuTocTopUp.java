@@ -18,7 +18,7 @@ public class TheSieuTocTopUp implements TopUp {
     }
 
     @Override
-    public boolean submitAndCheck(Card card) {
+    public boolean submit(Card card) {
         try {
             String response = api.submit(card.getSerial(), card.getPin(), card.getProvider(), String.valueOf(card.getDenomination()));
             Map<String, Object> map = addon.getCore().getJsonFactory().deserialize(response);

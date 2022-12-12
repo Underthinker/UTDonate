@@ -97,7 +97,7 @@ public class TopUpManager {
         core.getSchedulerFactory().runTaskAsynchronously(() -> {
             for (Map.Entry<String, TopUp> entry : topUpMap.entrySet()) {
                 String topUpName = entry.getKey();
-                if (entry.getValue().submitAndCheck(card)) {
+                if (entry.getValue().submit(card)) {
                     notifyListeners(successCheckListeners, topUpName, card);
                     future.complete(true);
                     return;
