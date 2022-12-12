@@ -12,6 +12,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.logging.Level;
 
+/**
+ * The {@link io.github.underthinker.utdonate.core.entity.storage.CardStorage} implementation using flat file (CSV)
+ */
 public class FlatFileCardStorage extends MapBasedCardStorage {
     public FlatFileCardStorage(UTDonateCore core, Input input) {
         super(core, input);

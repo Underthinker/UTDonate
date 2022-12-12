@@ -16,6 +16,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+/**
+ * A {@link CardStorage} implementation that stores cards in a {@link Map}
+ */
 public abstract class MapBasedCardStorage implements CardStorage {
     protected final UTDonateCore core;
     private final File file;
@@ -28,10 +31,27 @@ public abstract class MapBasedCardStorage implements CardStorage {
         this.file = new File(core.getCardStorageManager().getBaseFolder(), input.getName() + "." + getFileExtension());
     }
 
+    /**
+     * Get the file extension of the storage file
+     *
+     * @return the file extension
+     */
     protected abstract String getFileExtension();
 
+    /**
+     * Load the cards from the storage file
+     *
+     * @param file the storage file
+     * @return the loaded cards
+     */
     protected abstract Map<Long, CardData> load(File file);
 
+    /**
+     * Save the cards to the storage file
+     *
+     * @param file the storage file
+     * @param map  the cards to save
+     */
     protected abstract void save(File file, Map<Long, CardData> map);
 
     @Override

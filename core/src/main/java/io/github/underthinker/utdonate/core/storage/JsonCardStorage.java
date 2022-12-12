@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 
+/**
+ * The {@link io.github.underthinker.utdonate.core.entity.storage.CardStorage} implementation using Json
+ */
 public class JsonCardStorage extends MapBasedCardStorage {
     public JsonCardStorage(UTDonateCore core, Input input) {
         super(core, input);

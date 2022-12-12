@@ -9,6 +9,10 @@ import me.hsgamer.hscore.builder.Builder;
 
 import java.io.File;
 
+/**
+ * The manager for {@link CardStorage} builders.
+ * Used to build {@link CardStorage}.
+ */
 public class CardStorageManager extends Builder<CardStorage.Input, CardStorage> {
     @Getter
     private final File baseFolder;

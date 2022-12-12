@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * The addon manager
+ */
 public class DonateAddonManager extends AddonManager {
     @Getter
     private final UTDonateCore core;

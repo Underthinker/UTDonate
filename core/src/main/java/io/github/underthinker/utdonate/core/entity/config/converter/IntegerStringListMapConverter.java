@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * A converter for a map of integer and string list
+ */
 public class IntegerStringListMapConverter implements Converter {
     @Override
     public Object convert(Object raw) {
