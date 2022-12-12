@@ -15,7 +15,7 @@ dependencies {
 
 sponge {
     apiVersion("8.0.0")
-    license("CHANGEME")
+    license("Apache-2.0")
     loader {
         name(PluginLoaders.JAVA_PLAIN)
         version("1.0")
@@ -38,7 +38,6 @@ shadowJar {
     archiveFileName = "${rootProject.name}-${project.version}-sponge.jar"
 
     relocate 'me.hsgamer.hscore', 'io.github.underthinker.utdonate.lib.hscore'
-    relocate 'org.apache.logging.log4j.jul', 'io.github.underthinker.utdonate.lib.log4j.jul'
 }
 
 artifacts {
