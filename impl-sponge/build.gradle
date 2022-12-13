@@ -11,6 +11,9 @@ dependencies {
     api("me.hsgamer:hscore-config-configurate:$core") {
         exclude group: 'org.spongepowered', module: 'configurate-core'
     }
+    api("me.hsgamer:hscore-logging-log4j:$core") {
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+    }
 }
 
 sponge {

@@ -8,6 +8,7 @@ import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
 import io.github.underthinker.utdonate.core.manager.ListenerManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import lombok.Getter;
+import me.hsgamer.hscore.logging.log4j.Log4jToJUL;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.config.ConfigDir;
@@ -20,7 +21,6 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.logging.Handler;
 
 @Getter
 @Plugin("utdonate")
@@ -41,7 +41,7 @@ public class UTDonateSponge implements UTDonateCore {
     public UTDonateSponge(PluginContainer pluginContainer, Game game, org.apache.logging.log4j.Logger log4jLogger, @ConfigDir(sharedRoot = false) Path dataFolder) {
         this.pluginContainer = pluginContainer;
         this.game = game;
-        this.logger = buildJulLogger(log4jLogger);
+        this.logger = Log4jToJUL.createLogger(log4jLogger);
         this.dataFolder = dataFolder.toFile();
         this.topUpManager = new TopUpManager(this);
         this.listenerManager = new ListenerManager(this);
@@ -50,16 +50,6 @@ public class UTDonateSponge implements UTDonateCore {
         this.cardStorageManager = new CardStorageManager(this);
         this.configFactory = new SpongeConfigFactory(this);
         this.schedulerFactory = new SpongeSchedulerFactory(this);
-    }
-
-    private static java.util.logging.Logger buildJulLogger(org.apache.logging.log4j.Logger log4jLogger) {
-        java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("UTDonate");
-        for (Handler handler : julLogger.getHandlers()) {
-            julLogger.removeHandler(handler);
-        }
-        julLogger.addHandler(new Log4j2Handler(log4jLogger));
-        julLogger.setUseParentHandlers(false);
-        return julLogger;
     }
 
     @Listener
