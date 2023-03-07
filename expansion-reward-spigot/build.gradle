@@ -7,20 +7,21 @@ repositories {
 }
 
 dependencies {
-    compileOnly project(':core')
-    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
+    implementation project(':expansion-reward-common')
+    compileOnly project(':impl-spigot')
+    compileOnlyApi 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
 }
 
 shadowJar {
-    archiveFileName = "${rootProject.name}-${project.version}-reward.jar"
+    archiveFileName = "${rootProject.name}-${project.version}-reward-spigot.jar"
 
     relocate 'me.hsgamer.hscore', 'io.github.underthinker.utdonate.lib.hscore'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'io.github.underthinker.utdonate.reward.RewardAddon'
-        attributes 'Implementation-Title': "${rootProject.name}-reward"
+        attributes 'Main-Class': 'io.github.underthinker.utdonate.reward.spigot.SpigotRewardExpansion'
+        attributes 'Implementation-Title': "${rootProject.name}-reward-spigot"
         attributes 'Implementation-Version': project.version
     }
 }

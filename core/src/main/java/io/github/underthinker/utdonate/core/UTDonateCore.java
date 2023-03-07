@@ -76,13 +76,4 @@ public interface UTDonateCore {
      * @return the logger
      */
     Logger getLogger();
-
-    /**
-     * Get the platform type of the core
-     *
-     * @return the platform type
-     */
-    default PlatformType getPlatformType() {
-        return PlatformType.UNKNOWN;
-    }
 }

@@ -1,4 +1,4 @@
-package io.github.underthinker.utdonate.reward.handler;
+package io.github.underthinker.utdonate.reward.spigot;
 
 import io.github.underthinker.utdonate.core.entity.card.Card;
 import io.github.underthinker.utdonate.reward.RewardExecutor;

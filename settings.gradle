@@ -3,5 +3,6 @@ include 'core'
 include 'impl-spigot'
 include 'expansion-test'
 include 'expansion-topup-thesieutoc'
-include 'expansion-reward'
+include 'expansion-reward-common'
+include 'expansion-reward-spigot'
 

@@ -1,6 +1,5 @@
 package io.github.underthinker.utdonate.spigot;
 
-import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.manager.CardStorageManager;
 import io.github.underthinker.utdonate.core.manager.DonateExpansionManager;
@@ -33,10 +32,5 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     @Override
     public void disable() {
         expansionManager.disableExpansions();
-    }
-
-    @Override
-    public PlatformType getPlatformType() {
-        return PlatformType.SPIGOT;
     }
 }
