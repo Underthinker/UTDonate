@@ -3,7 +3,7 @@ package io.github.underthinker.utdonate.core;
 import io.github.underthinker.utdonate.core.config.ConfigFactory;
 import io.github.underthinker.utdonate.core.json.JsonFactory;
 import io.github.underthinker.utdonate.core.manager.CardStorageManager;
-import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
+import io.github.underthinker.utdonate.core.manager.DonateExpansionManager;
 import io.github.underthinker.utdonate.core.manager.ListenerManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import io.github.underthinker.utdonate.core.scheduler.SchedulerFactory;
@@ -42,11 +42,11 @@ public interface UTDonateCore {
     ListenerManager getListenerManager();
 
     /**
-     * Get the addon manager
+     * Get the expansion manager
      *
-     * @return the addon manager
+     * @return the expansion manager
      */
-    DonateAddonManager getAddonManager();
+    DonateExpansionManager getExpansionManager();
 
     /**
      * Get the {@link io.github.underthinker.utdonate.core.entity.storage.CardStorage} manager.

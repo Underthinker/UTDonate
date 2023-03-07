@@ -3,7 +3,7 @@ package io.github.underthinker.utdonate.spigot;
 import io.github.underthinker.utdonate.core.PlatformType;
 import io.github.underthinker.utdonate.core.UTDonateCore;
 import io.github.underthinker.utdonate.core.manager.CardStorageManager;
-import io.github.underthinker.utdonate.core.manager.DonateAddonManager;
+import io.github.underthinker.utdonate.core.manager.DonateExpansionManager;
 import io.github.underthinker.utdonate.core.manager.ListenerManager;
 import io.github.underthinker.utdonate.core.manager.TopUpManager;
 import lombok.Getter;
@@ -15,24 +15,24 @@ public class UTDonateSpigot extends BasePlugin implements UTDonateCore {
     private final SpigotConfigFactory configFactory = new SpigotConfigFactory(this);
     private final TopUpManager topUpManager = new TopUpManager(this);
     private final ListenerManager listenerManager = new ListenerManager(this);
-    private final DonateAddonManager addonManager = new DonateAddonManager(this, getClassLoader());
+    private final DonateExpansionManager expansionManager = new DonateExpansionManager(this, getClassLoader());
     private final CardStorageManager cardStorageManager = new CardStorageManager(this);
     private final SpigotJsonFactory jsonFactory = new SpigotJsonFactory();
 
     @Override
     public void enable() {
-        addonManager.loadAddons();
+        expansionManager.loadExpansions();
     }
 
     @Override
     public void postEnable() {
-        addonManager.enableAddons();
-        addonManager.callPostEnable();
+        expansionManager.enableExpansions();
+        expansionManager.callPostEnable();
     }
 
     @Override
     public void disable() {
-        addonManager.disableAddons();
+        expansionManager.disableExpansions();
     }
 
     @Override
