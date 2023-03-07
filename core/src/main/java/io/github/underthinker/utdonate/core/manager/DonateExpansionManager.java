@@ -5,7 +5,6 @@ import io.github.underthinker.utdonate.core.entity.expansion.DonateExpansion;
 import io.github.underthinker.utdonate.core.entity.expansion.StorageExpansion;
 import io.github.underthinker.utdonate.core.entity.expansion.TopUpExpansion;
 import lombok.Getter;
-import me.hsgamer.hscore.expansion.common.Expansion;
 import me.hsgamer.hscore.expansion.common.ExpansionClassLoader;
 import me.hsgamer.hscore.expansion.common.ExpansionManager;
 import me.hsgamer.hscore.expansion.manifest.ManifestExpansionDescriptionLoader;
@@ -44,10 +43,15 @@ public class DonateExpansionManager extends ExpansionManager {
         Map<String, ExpansionClassLoader> topUpMap = new HashMap<>();
         Map<String, ExpansionClassLoader> otherMap = new HashMap<>();
         original.forEach((name, expansionClassLoader) -> {
-            Expansion expansion = expansionClassLoader.getExpansion();
-            if (expansion instanceof StorageExpansion) {
+            Class<?> expansionClass;
+            try {
+                expansionClass = Class.forName(expansionClassLoader.getDescription().getMainClass(), false, expansionClassLoader);
+            } catch (ClassNotFoundException e) {
+                throw new IllegalStateException("Cannot find the main class of " + name, e);
+            }
+            if (StorageExpansion.class.isAssignableFrom(expansionClass)) {
                 storageMap.put(name, expansionClassLoader);
-            } else if (expansion instanceof TopUpExpansion) {
+            } else if (TopUpExpansion.class.isAssignableFrom(expansionClass)) {
                 topUpMap.put(name, expansionClassLoader);
             } else {
                 otherMap.put(name, expansionClassLoader);
