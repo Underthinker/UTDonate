@@ -16,7 +16,7 @@ subprojects {
     }
 
     ext {
-        core = "4.2.10"
+        core = "4.2.13"
     }
 
     java {
