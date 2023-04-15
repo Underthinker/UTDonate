@@ -14,16 +14,14 @@
 
     <modules>
         <module>core</module>
-        <module>impl-spigot</module>
-        <module>expansion-test</module>
-        <module>expansion-topup-thesieutoc</module>
-        <module>expansion-reward-common</module>
-        <module>expansion-reward-spigot</module>
+        <module>impl</module>
+        <module>expansion</module>
     </modules>
 
     <properties>
         <core.version>4.2.10</core.version>
         <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>

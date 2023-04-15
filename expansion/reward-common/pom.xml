@@ -6,18 +6,9 @@
 
     <parent>
         <groupId>io.github.underthinker</groupId>
-        <artifactId>utdonate-parent</artifactId>
+        <artifactId>utdonate-expansion</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>utdonate-expansion-reward-common</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.github.underthinker</groupId>
-            <artifactId>utdonate-core</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 </project>
