@@ -1,0 +1,5 @@
+main: "${project.mainClass}"
+name: "${project.name}"
+description: "${project.description}"
+version: "${project.version}"
+api-version: 1.13
